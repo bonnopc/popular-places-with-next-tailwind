@@ -13,6 +13,9 @@ module.exports = {
           light: "#E5E8FF",
           DEFAULT: "#5468FF",
           dark: "#354895"
+        },
+        yellow: {
+          DEFAULT: "#EC6820"
         }
       },
       textColor: ['active','disabled'],
