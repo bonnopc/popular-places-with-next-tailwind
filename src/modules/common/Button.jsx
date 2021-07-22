@@ -6,6 +6,7 @@ export default function Button({
     fullWidth,
     hideXMargin,
     hideYMargin,
+    ...restProps
 }){
     let classWillBe = "flex items-center justify-center text-center rounded-lg transition-colors active:shadow-sm font-medium";
 
@@ -25,7 +26,10 @@ export default function Button({
     if(className) classWillBe += ` ${className}`;
 
     return (
-        <button className={classWillBe}>
+        <button 
+            className={classWillBe}
+            {...restProps}
+        >
             { children }
         </button>
     )

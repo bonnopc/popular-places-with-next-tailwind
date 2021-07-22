@@ -4,14 +4,24 @@ import AddOutlinedIcon from "assets/svg/add_outlined.svg";
 import Section from "modules/common/Section";
 import SectionHeader from "modules/common/SectionHeader";
 import PlaceCardItem from "./PlaceCardItem";
+import { useState } from "react";
+import UpdatePlaceDrawer from "./UpdatePlaceDrawer";
 
 
 export default function HomeComponent(){
+    const [ isOpenRightDrawer, setRightDrawerOpen ] = useState(false);
+
+    function toggleRightDrawerOpen(){
+        setRightDrawerOpen(isOpen => !isOpen);
+    }
+
     return (
         <>
             <PageHeader
                 rightAction={(
-                    <Button>
+                    <Button
+                        onClick={toggleRightDrawerOpen}
+                    >
                         <AddOutlinedIcon className="fill-current mr-2"/>
                         Add New Place
                     </Button>
@@ -25,6 +35,10 @@ export default function HomeComponent(){
                     {[0,1,2,3,4,5,6,7].map(i => <PlaceCardItem key={i} />)}
                 </div>
             </Section>
+            <UpdatePlaceDrawer
+                isOpen={isOpenRightDrawer}
+                onClose={toggleRightDrawerOpen}
+            />
         </>
     )
 }
