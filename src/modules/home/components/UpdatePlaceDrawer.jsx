@@ -5,12 +5,14 @@ import { DrawerAction } from "modules/common/components/Drawer";
 import { Component } from "react";
 // import InputComponent from "modules/common/components/InputComponent";
 import SearchDropdown from "modules/common/components/SearchDropdown";
+import InputDropdown from "modules/common/components/InputDropdown";
 
 export default class UpdatePlaceDrawer extends Component {
     constructor(props){
         super(props)
 
         this.state = {
+            division: {},
             district: {}
         }
 
@@ -36,8 +38,23 @@ export default class UpdatePlaceDrawer extends Component {
                         onClose={this.props.onClose}
                     >
                         <SearchDropdown
+                            value={this.state.division}
+                            label="Division"
+                            className="mb-8"
+                            // items={[
+                            //     { text: "Dhaka", value: "Dhaka" },
+                            //     { text: "Chittagong", value: "Chittagong" },
+                            //     { text: "Sylhet", value: "Sylhet" },
+                            // ]}
+                            onChange={division => {
+                                console.log({division})
+                                this.setState({ division })
+                            }}
+                        />
+                        <InputDropdown
                             value={this.state.district}
                             label="District"
+                            className="mb-8"
                             items={[
                                 { text: "Dhaka", value: "Dhaka" },
                                 { text: "Chittagong", value: "Chittagong" },

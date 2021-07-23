@@ -1,10 +1,11 @@
 import { forwardRef, useEffect, useRef, useState } from "react";
 import InputComponent from "./InputComponent";
 import SearchIcon from "assets/svg/search.svg";
+import CloseIcon from "assets/svg/close.svg";
 
-const DropdownItems = ({ items, onClick }) => {
+export const DropdownItems = ({ items, onClick, noItemText }) => {
     return (
-        <ul className="absolute top-full left-0 w-full shadow-lg rounded-md max-h-48 overflow-y-auto">
+        <ul className="absolute top-full left-0 w-full shadow-lg rounded-md max-h-48 overflow-y-auto z-20 bg-white">
             {
                 items?.length ? items.map((item,i) => (
                     <li
@@ -14,26 +15,29 @@ const DropdownItems = ({ items, onClick }) => {
                     >{item.text}</li>
                 )) :
                 <li className="px-8 py-4 text-xs">
-                    We can't find anything related to your search keyword, Try with other keyword..
+                    {noItemText ?? "We can't find anything related to your search keyword, Try with other keyword.."}
                 </li>
             }
         </ul>
     )
 }
 
-const SearchDropdown = forwardRef(({
+const SearchDropdown = ({
     items = [],
     value,
     onChange,
+    className,
     isLoadingResult=false,
     onSearch,
     autoComplete,
     isOpenDropdownInitial=false,
+    // onClickEndIcon,
     ...restProps
-}, ref) => {
+}) => {
     const [isOpenDropdown,setDropdownOpen] = useState(isOpenDropdownInitial)
     const [searchValue, setSearchValue] = useState(value?.text ?? '')
     const inputDelay = useRef(null)
+    const inputContainerRef = useRef(null)
     const inputRef = useRef(null)
 
     useEffect(() => {
@@ -57,7 +61,7 @@ const SearchDropdown = forwardRef(({
     }, [searchValue])
 
     const handleClick = event => {
-        if(isOpenDropdown && inputRef?.current && !inputRef.current.contains(event.target)){
+        if(isOpenDropdown && inputContainerRef?.current && !inputContainerRef.current.contains(event.target)){
             closeDropdown()
         }
     }
@@ -82,29 +86,39 @@ const SearchDropdown = forwardRef(({
         setSearchValue(event.target.value)
     }
 
+    const clearValue = () => {
+        setSearchValue('');
+        if(onChange) onChange({})
+    }
+
     return (
         <div 
-            ref={inputRef}
-            className="relative w-full">
+            ref={inputContainerRef}
+            className={`relative w-full ${className ?? ''}`}>
             <InputComponent
-                ref={ref}
+                ref={inputRef}
                 value={searchValue}
                 autoComplete="off"
                 type="search"
                 onFocus={openDropdown}
-                endIcon={<SearchIcon className={`fill-current text-gray-500 ${isLoadingResult ? 'animate-ping' : ''}`} />}
+                endIcon={
+                    (value?.value || searchValue) && !isLoadingResult ?
+                    <CloseIcon className="fill-current text-gray-500 " /> :
+                    <SearchIcon className={`fill-current text-gray-500 ${isLoadingResult ? 'animate-ping' : ''}`} />
+                }
                 onChange={handleChangeSearchValue}
+                onClickEndIcon={clearValue}
                 {...restProps}
             />
             {
-                isOpenDropdown && !isLoadingResult &&
+                isOpenDropdown && !isLoadingResult && items?.length ?
                 <DropdownItems
                     items={items}
                     onClick={handleClickItem}
-                />
+                /> : ""
             }
         </div>
     )
-})
+}
 
 export default SearchDropdown
