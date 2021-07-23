@@ -99,7 +99,7 @@ const SearchDropdown = ({
                 ref={inputRef}
                 value={searchValue}
                 autoComplete="off"
-                type="search"
+                // type="search"
                 onFocus={openDropdown}
                 endIcon={
                     (value?.value || searchValue) && !isLoadingResult ?

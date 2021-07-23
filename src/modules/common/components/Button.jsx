@@ -3,6 +3,7 @@ export default function Button({
     className,
     variant="primary",
     size="medium",
+    type="button",
     fullWidth,
     hideXMargin,
     hideYMargin,
@@ -17,7 +18,7 @@ export default function Button({
 
     // variant
     if(variant === "primary" && !disabled) classWillBe += " bg-blue hover:bg-blue-700 text-white";
-    else if(variant === "secondary" && !disabled) classWillBe += " bg-blue-50 hover:bg-blue-100 text-blue";
+    else if(variant === "secondary" && !disabled) classWillBe += " bg-blue-100 hover:bg-blue-200 text-blue";
     else if(variant === "light" && !disabled) classWillBe += " bg-white hover:bg-gray-50 text-blue";
 
     // size
@@ -33,6 +34,7 @@ export default function Button({
         <button 
             className={classWillBe}
             disabled={disabled}
+            type={type}
             {...restProps}
         >
             { children }

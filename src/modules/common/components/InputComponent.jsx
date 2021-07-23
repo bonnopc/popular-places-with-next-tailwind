@@ -6,6 +6,7 @@ const InputComponent = forwardRef(({
     name,
     endIcon,
     onClickEndIcon,
+    errorText,
     ...restProps
 }, ref) => {
     const handleClickEndIcon = () => {
@@ -16,14 +17,14 @@ const InputComponent = forwardRef(({
     return (
         <div className="flex flex-col">
             <label 
-                className="mb-2"
+                className="mb-2 font-medium text-sm"
                 htmlFor={name}>{label}</label>
             <div className="relative flex w-full">
                 <input 
                     type={type} 
                     name={name ?? label.trim()}
                     ref={ref}
-                    className="p-4 leading-6 bg-indigo-50 w-full rounded-md transition-colors focus:outline-none focus:bg-indigo-100"
+                    className={`p-4 leading-6 w-full rounded-md transition-colors focus:outline-none ${errorText ? "bg-red-50 focus:bg-red-100" : "bg-blue-50 focus:bg-blue-100"}`}
                     {...restProps}
                 />
                 {
@@ -38,6 +39,10 @@ const InputComponent = forwardRef(({
                     </div> : ""
                 }
             </div>
+            {
+                errorText ?
+                <p className="text-red-500 text-xs my-1">{errorText}</p> : ""
+            }
         </div>
     )
 })
