@@ -1,5 +1,5 @@
-import Button from "modules/common/Button";
-import Card, { CardContent } from "modules/common/Card";
+import Button from "modules/common/components/Button";
+import Card, { CardContent } from "modules/common/components/Card";
 
 export default function PlaceCardItem(){
     return (

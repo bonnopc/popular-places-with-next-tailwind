@@ -1,6 +1,6 @@
 export default function HomeLayout({ children }){
     return(
-        <div className="font-siliguri flex bg-gray-100 min-h-screen">
+        <div className="font-siliguri text-tblack flex bg-gray-100 min-h-screen">
             <nav className="bg-white fixed inset-0 w-60 xl:w-72 min-h-screen z-10 overflow-y-visible shadow-lg">
                 
             </nav>

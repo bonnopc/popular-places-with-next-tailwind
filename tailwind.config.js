@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'siliguri': "'Hind Siliguri', sans-serif"
+        'siliguri': "'Hind Siliguri', sans-serif",
+        'baloo': "'Baloo Da 2', cursive",
       },
       colors: {
         transparent: 'transparent',
@@ -16,10 +17,19 @@ module.exports = {
         },
         yellow: {
           DEFAULT: "#EC6820"
+        },
+        indigo: {
+          light: "#4f7bb0"
+        },
+        tblack: {
+          DEFAULT: "#0F1856"
         }
       },
       textColor: ['active','disabled'],
       backgroundColor: ['active','disabled'],
+      borderColor: ['first', 'last'],
+      borderWidth: ['first', 'last'],
+      borderStyle: ['first', 'last'],
       boxShadow: ['active','disabled'],
     },
   },

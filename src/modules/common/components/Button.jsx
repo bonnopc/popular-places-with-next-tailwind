@@ -6,15 +6,19 @@ export default function Button({
     fullWidth,
     hideXMargin,
     hideYMargin,
+    disabled,
     ...restProps
 }){
-    let classWillBe = "flex items-center justify-center text-center rounded-lg transition-colors active:shadow-sm font-medium";
+    let classWillBe = "flex items-center justify-center text-center rounded-2xl transition-colors active:shadow-sm font-medium";
 
     if(!hideYMargin) classWillBe += " my-2";
 
+    if(disabled) classWillBe += " bg-gray-200 text-white cursor-not-allowed";
+
     // variant
-    if(variant === "primary") classWillBe += " bg-blue hover:bg-blue-700 text-white";
-    else if(variant === "secondary") classWillBe += " bg-blue-50 hover:bg-blue-100 text-blue";
+    if(variant === "primary" && !disabled) classWillBe += " bg-blue hover:bg-blue-700 text-white";
+    else if(variant === "secondary" && !disabled) classWillBe += " bg-blue-50 hover:bg-blue-100 text-blue";
+    else if(variant === "light" && !disabled) classWillBe += " bg-white hover:bg-gray-50 text-blue";
 
     // size
     if(size === "large") classWillBe += ` px-8 py-4 text-lg ${!hideXMargin ? "mx-8" : ""}`;
@@ -28,6 +32,7 @@ export default function Button({
     return (
         <button 
             className={classWillBe}
+            disabled={disabled}
             {...restProps}
         >
             { children }

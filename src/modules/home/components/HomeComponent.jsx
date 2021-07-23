@@ -1,8 +1,8 @@
-import Button from "modules/common/Button";
-import PageHeader from "modules/common/PageHeader";
+import Button from "modules/common/components/Button";
+import PageHeader from "modules/common/components/PageHeader";
 import AddOutlinedIcon from "assets/svg/add_outlined.svg";
-import Section from "modules/common/Section";
-import SectionHeader from "modules/common/SectionHeader";
+import Section from "modules/common/components/Section";
+import SectionHeader from "modules/common/components/SectionHeader";
 import PlaceCardItem from "./PlaceCardItem";
 import { useState } from "react";
 import UpdatePlaceDrawer from "./UpdatePlaceDrawer";
@@ -20,6 +20,7 @@ export default function HomeComponent(){
             <PageHeader
                 rightAction={(
                     <Button
+                        size="large"
                         onClick={toggleRightDrawerOpen}
                     >
                         <AddOutlinedIcon className="fill-current mr-2"/>
