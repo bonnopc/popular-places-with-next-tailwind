@@ -5,6 +5,9 @@ const InputComponent = forwardRef(({
     type="text",
     name,
     endIcon,
+    className,
+    isLoading,
+    disabled,
     onClickEndIcon,
     errorText,
     ...restProps
@@ -15,15 +18,21 @@ const InputComponent = forwardRef(({
     }
 
     return (
-        <div className="flex flex-col">
-            <label 
-                className="mb-3 font-medium text-sm"
-                htmlFor={name ?? label.trim()}>{label}</label>
+        <div className={`flex flex-col ${isLoading ? 'animate-pulse' : ''} ${className ?? ''}`}>
+            {
+                isLoading ?
+                <div className="h-5 w-24 bg-blue-50 mb-3 rounded-md" /> :
+                <label 
+                    className="mb-3 font-medium text-sm"
+                    htmlFor={name ?? label.trim()}>{label}</label>
+            }
+            
             <div className="relative flex w-full">
                 <input 
                     type={type} 
                     name={name ?? label.trim()}
                     ref={ref}
+                    disabled={disabled || isLoading}
                     className={`p-4 leading-6 w-full rounded-md transition-colors focus:outline-none ${errorText ? "bg-red-50 focus:bg-red-100" : "bg-blue-50 focus:bg-blue-100"}`}
                     {...restProps}
                 />

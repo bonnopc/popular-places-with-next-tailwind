@@ -4,15 +4,47 @@ import AddOutlinedIcon from "assets/svg/add_outlined.svg";
 import Section from "modules/common/components/Section";
 import SectionHeader from "modules/common/components/SectionHeader";
 import PlaceCardItem from "./PlaceCardItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdatePlaceDrawer from "./UpdatePlaceDrawer";
+import actionSetLocationsToStorage from "../actions/actionSetLocationsToStorage";
+import actionGetLocationsFromStorage from "../actions/actionGetLocationsFromStorage";
 
 
 export default function HomeComponent(){
     const [ isOpenRightDrawer, setRightDrawerOpen ] = useState(false);
+    const [ locations, setLocations ] = useState([]);
+    const [ selectedLocation, setSelectedLocation ] = useState({});
 
-    function toggleRightDrawerOpen(){
-        setRightDrawerOpen(isOpen => !isOpen);
+    useEffect(() => {
+        setLocations(actionGetLocationsFromStorage())
+    }, [])
+
+    const openRightDrawer = () => {
+        setRightDrawerOpen(true);
+    }
+
+    const closeRightDrawer = () => {
+        setRightDrawerOpen(false);
+        setSelectedLocation({})
+    }
+
+    const onCreateLocation = item => {
+        const allLocations = [ ...locations, item ]
+
+        setLocations(allLocations)
+        actionSetLocationsToStorage(allLocations)
+    }
+
+    const onUpdateLocation = item => {
+        const allLocations = locations.map(loc => loc.id === item.id ? {...item} : {...loc})
+
+        setLocations(allLocations)
+        actionSetLocationsToStorage(allLocations)
+    }
+
+    const handleClickEdit = item => {
+        setSelectedLocation(item)
+        openRightDrawer()
     }
 
     return (
@@ -21,7 +53,7 @@ export default function HomeComponent(){
                 rightAction={(
                     <Button
                         size="large"
-                        onClick={toggleRightDrawerOpen}
+                        onClick={openRightDrawer}
                     >
                         <AddOutlinedIcon className="fill-current mr-2"/>
                         Add New Place
@@ -32,13 +64,28 @@ export default function HomeComponent(){
             </PageHeader>
             <Section className="flex-grow">
                 <SectionHeader>Popular Places</SectionHeader>
-                <div className="grid grid-cols-3 gap-4">
-                    {[0,1,2,3,4,5,6,7].map(i => <PlaceCardItem key={i} />)}
-                </div>
+                {
+                    locations?.length ?
+                    <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
+                        {locations.map((location,i) => (
+                            <PlaceCardItem 
+                                key={i} 
+                                {...location} 
+                                onEdit={() => handleClickEdit(location)} 
+                            />
+                        ))}
+                    </div> :
+                    <p className="text-gray-400">
+                        When you add a place, they will appear here
+                    </p>
+                }
             </Section>
             <UpdatePlaceDrawer
                 isOpen={isOpenRightDrawer}
-                onClose={toggleRightDrawerOpen}
+                onClose={closeRightDrawer}
+                onCreate={onCreateLocation}
+                onUpdate={onUpdateLocation}
+                location={selectedLocation}
             />
         </>
     )

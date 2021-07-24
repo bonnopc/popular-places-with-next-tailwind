@@ -46,6 +46,7 @@ export default function DynamicListInput({
     disabled,
     name,
     className,
+    isLoading,
 }){
     const [isOpenDropdown,setDropdownOpen] = useState(false)
     const [searchedValue,setSearchedValue] = useState("")
@@ -80,8 +81,10 @@ export default function DynamicListInput({
     // }
 
     const openDropdown = () => {
-        setDropdownOpen(true)
-        if(inputRef?.current) inputRef.current.click()
+        if(!isLoading && !disabled){
+            setDropdownOpen(true)
+            if(inputRef?.current) inputRef.current.click()
+        }
     }
 
     const closeDropdown = () => {
@@ -110,48 +113,50 @@ export default function DynamicListInput({
     }
 
     return (
-        <div>
-            
-            <div
-                className={`flex flex-col ${className ?? ''}`}
-                ref={inputContainerRef}
-            >
+        <div
+            className={`flex flex-col ${isLoading ? 'animate-pulse' : ''} ${className ?? ''}`}
+            ref={inputContainerRef}
+        >
+            {
+                isLoading ?
+                <div className="h-5 w-24 bg-blue-50 mb-3 rounded-md" /> :
                 <label 
                     htmlFor={name ?? label.trim()}
                     className="mb-3 font-medium text-sm"
                 >
                     { label }
                 </label>
-                <SelectedItems 
-                    items={value} 
-                    onRemove={handleRemoveItem}
+            }
+            
+            <SelectedItems 
+                items={value} 
+                onRemove={handleRemoveItem}
+            />
+            <div 
+                className={`relative ${value?.length ? 'mr-20' : ''}`}
+            >
+                <input 
+                    type="text"
+                    value={searchedValue}
+                    placeholder="Search here"
+                    ref={inputRef}
+                    onChange={e => setSearchedValue(e.target.value)}
+                    className={`p-4 leading-6 w-full rounded-md transition-colors focus:outline-none focus:bg-blue-100 ${!isOpenDropdown ? 'hidden' : ''}`}
                 />
                 <div 
-                    className={`relative ${value?.length ? 'mr-20' : ''}`}
+                    className={`p-4 leading-6 border-2 cursor-text border-dashed rounded-md border-blue-100 w-full text-center flex items-center justify-center text-sm ${isOpenDropdown ? 'hidden' : ''}`}
+                    onClick={openDropdown}
                 >
-                    <input 
-                        type="text"
-                        value={searchedValue}
-                        placeholder="Search here"
-                        ref={inputRef}
-                        onChange={e => setSearchedValue(e.target.value)}
-                        className={`p-4 leading-6 w-full rounded-md transition-colors focus:outline-none focus:bg-blue-100 ${!isOpenDropdown ? 'hidden' : ''}`}
-                    />
-                    <div 
-                        className={`p-4 leading-6 border-2 cursor-text border-dashed rounded-md border-blue-100 w-full text-center flex items-center justify-center text-sm ${isOpenDropdown ? 'hidden' : ''}`}
-                        onClick={openDropdown}
-                    >
-                        { placeholder }
-                    </div>
-                    {
-                        isOpenDropdown && !disabled ?
-                        <DropdownItems
-                            items={filteredItems}
-                            onClick={handleClickItem}
-                            noItemText="No option found!"
-                        /> : ""
-                    }
+                    { isLoading ? <div className="h-5 w-24 bg-blue-50 rounded-md" /> : placeholder }
                 </div>
+                {
+                    isOpenDropdown && !disabled ?
+                    <DropdownItems
+                        items={filteredItems}
+                        onClick={handleClickItem}
+                        noItemText="No option found!"
+                    /> : ""
+                }
             </div>
         </div>
     )

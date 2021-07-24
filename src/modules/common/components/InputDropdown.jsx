@@ -9,6 +9,7 @@ const InputDropdown = forwardRef(({
     onChange,
     disabled,
     className,
+    isLoading,
     noItemText,
     autoComplete,
     isOpenDropdownInitial=false,
@@ -32,7 +33,7 @@ const InputDropdown = forwardRef(({
     }
 
     const openDropdown = () => {
-        setDropdownOpen(true)
+        if(!isLoading && !disabled) setDropdownOpen(true)
     }
 
     const closeDropdown = () => {
@@ -55,12 +56,14 @@ const InputDropdown = forwardRef(({
                 value={value?.text ?? ''}
                 autoComplete="off"
                 readOnly
+                disabled={disabled}
+                isLoading={isLoading}
                 onFocus={openDropdown}
                 endIcon={<DownArrowIcon className={`fill-current text-gray-500 transition-transform ${isOpenDropdown && !disabled ? 'transform rotate-180' : ''}`} />}
                 {...restProps}
             />
             {
-                isOpenDropdown && !disabled ?
+                isOpenDropdown && !disabled && !isLoading ?
                 <DropdownItems
                     items={items}
                     onClick={handleClickItem}

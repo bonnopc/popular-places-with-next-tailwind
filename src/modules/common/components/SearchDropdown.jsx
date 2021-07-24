@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState } from "react";
 import InputComponent from "./InputComponent";
 import SearchIcon from "assets/svg/search.svg";
 import CloseIcon from "assets/svg/close.svg";
+import getItemsByStringSearch from "helpers/getItemsByStringSearch";
 
 export const DropdownItems = ({ items, onClick, noItemText }) => {
     return (
@@ -27,7 +28,7 @@ const SearchDropdown = ({
     value,
     onChange,
     className,
-    isLoadingResult=false,
+    isLoading=false,
     onSearch,
     autoComplete,
     isOpenDropdownInitial=false,
@@ -35,7 +36,8 @@ const SearchDropdown = ({
     ...restProps
 }) => {
     const [isOpenDropdown,setDropdownOpen] = useState(isOpenDropdownInitial)
-    const [searchValue, setSearchValue] = useState(value?.text ?? '')
+    const [filteredItems,setFilteredItems] = useState([])
+    const [searchValue, setSearchValue] = useState('')
     const inputDelay = useRef(null)
     const inputContainerRef = useRef(null)
     const inputRef = useRef(null)
@@ -59,6 +61,14 @@ const SearchDropdown = ({
             if(inputDelay.current != null) clearTimeout(inputDelay.current)
         }
     }, [searchValue])
+
+    useEffect(() => {
+        setFilteredItems(getItemsByStringSearch({
+            items: value?.value ? items.filter(e => value.value === e.value) : items,
+            searchQuery: searchValue,
+            keyToSearch: 'text'
+        }))
+    }, [items?.length,value,searchValue])
 
     const handleClick = event => {
         if(isOpenDropdown && inputContainerRef?.current && !inputContainerRef.current.contains(event.target)){
@@ -84,6 +94,7 @@ const SearchDropdown = ({
 
     const handleChangeSearchValue = event => {
         setSearchValue(event.target.value)
+        onChange({})
     }
 
     const clearValue = () => {
@@ -97,23 +108,23 @@ const SearchDropdown = ({
             className={`relative w-full ${className ?? ''}`}>
             <InputComponent
                 ref={inputRef}
-                value={searchValue}
+                value={searchValue || value?.text || ''}
                 autoComplete="off"
                 // type="search"
                 onFocus={openDropdown}
                 endIcon={
-                    (value?.value || searchValue) && !isLoadingResult ?
+                    (value?.value || searchValue) && !isLoading ?
                     <CloseIcon className="fill-current text-gray-500 " /> :
-                    <SearchIcon className={`fill-current text-gray-500 ${isLoadingResult ? 'animate-ping' : ''}`} />
+                    <SearchIcon className={`fill-current text-gray-500 ${isLoading ? 'animate-ping' : ''}`} />
                 }
                 onChange={handleChangeSearchValue}
                 onClickEndIcon={clearValue}
                 {...restProps}
             />
             {
-                isOpenDropdown && !isLoadingResult && items?.length ?
+                isOpenDropdown && !isLoading ?
                 <DropdownItems
-                    items={items}
+                    items={filteredItems}
                     onClick={handleClickItem}
                 /> : ""
             }
