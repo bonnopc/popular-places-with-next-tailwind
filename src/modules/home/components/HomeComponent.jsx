@@ -16,7 +16,7 @@ export default function HomeComponent(){
     const [ selectedLocation, setSelectedLocation ] = useState({});
 
     useEffect(() => {
-        setLocations(actionGetLocationsFromStorage())
+        setLocations(actionGetLocationsFromStorage() || [])
     }, [])
 
     const openRightDrawer = () => {
@@ -66,7 +66,7 @@ export default function HomeComponent(){
                 <SectionHeader>Popular Places</SectionHeader>
                 {
                     locations?.length ?
-                    <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-3 xl:grid-cols-4 gap-4">
                         {locations.map((location,i) => (
                             <PlaceCardItem 
                                 key={i} 
