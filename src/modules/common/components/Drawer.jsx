@@ -7,7 +7,7 @@ export function DrawerAction({
 }){
     return (
         <section
-            className="py-4 px-8 flex justify-end sticky bottom-0 w-full border-t-2"
+            className="py-4 px-8 flex justify-end sticky bottom-0 w-full border-t-2 bg-white"
             {...restProps}
         >
             { children }
@@ -69,7 +69,7 @@ export default function Drawer({
         >
             <div 
                 ref={contentRef} 
-                className="bg-white rounded-tl-xl w-1/2 lg:w-5/12 opacity-100 flex flex-col relative overflow-y-auto font-baloo shadow-2xl"
+                className="bg-white rounded-tl-xl w-1/2 lg:w-5/12 xl:w-4/12 opacity-100 flex flex-col relative overflow-y-auto font-baloo shadow-2xl"
             >
                 {children}
             </div>

@@ -113,7 +113,7 @@ export default function DynamicListInput({
             >
                 <label 
                     htmlFor={name ?? label.trim()}
-                    className="mb-2 font-medium text-sm"
+                    className="mb-3 font-medium text-sm"
                 >
                     { label }
                 </label>

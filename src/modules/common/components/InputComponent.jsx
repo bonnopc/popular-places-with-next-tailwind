@@ -17,7 +17,7 @@ const InputComponent = forwardRef(({
     return (
         <div className="flex flex-col">
             <label 
-                className="mb-2 font-medium text-sm"
+                className="mb-3 font-medium text-sm"
                 htmlFor={name ?? label.trim()}>{label}</label>
             <div className="relative flex w-full">
                 <input 

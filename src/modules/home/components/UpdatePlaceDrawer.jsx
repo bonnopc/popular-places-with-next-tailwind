@@ -8,6 +8,7 @@ import SearchDropdown from "modules/common/components/SearchDropdown";
 import InputDropdown from "modules/common/components/InputDropdown";
 import DynamicListInput from "modules/common/components/DynamicListInput";
 import AddIcon from "assets/svg/add_outlined.svg"
+import CheckboxGroup from "modules/common/components/CheckboxGroup";
 export default class UpdatePlaceDrawer extends Component {
     constructor(props){
         super(props)
@@ -15,7 +16,8 @@ export default class UpdatePlaceDrawer extends Component {
         this.state = {
             division: {},
             district: {},
-            popularPlaces: []
+            popularPlaces: [],
+            packages: []
         }
 
         this.handleSubmitForm = this.handleSubmitForm.bind(this)
@@ -70,6 +72,7 @@ export default class UpdatePlaceDrawer extends Component {
                         <DynamicListInput
                             label="Popular Place"
                             value={this.state.popularPlaces}
+                            className="mb-8"
                             items={[
                                 { text: "Dhaka", value: "Dhaka" },
                                 { text: "Chittagong", value: "Chittagong" },
@@ -85,6 +88,19 @@ export default class UpdatePlaceDrawer extends Component {
                             )}
                             onChange={popularPlaces => {
                                 this.setState({ popularPlaces })
+                            }}
+                        />
+                        <CheckboxGroup
+                            label="Packages"
+                            value={this.state.packages}
+                            items={[
+                                { title: "Pkg 1", subTitle: "৳300", color: 'yellow', value: "pkg1" },
+                                { title: "Pkg 2", subTitle: "৳300", color: 'purple', value: "pkg2" },
+                                { title: "Pkg 3", subTitle: "৳300", color: 'blue', value: "pkg3" },
+                                { title: "Pkg 2", subTitle: "৳300", color: 'green', value: "pkg4" },
+                            ]}
+                            onChange={packages => {
+                                this.setState({ packages })
                             }}
                         />
                     </DrawerContent>
