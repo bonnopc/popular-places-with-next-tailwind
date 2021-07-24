@@ -6,14 +6,16 @@ import { Component } from "react";
 // import InputComponent from "modules/common/components/InputComponent";
 import SearchDropdown from "modules/common/components/SearchDropdown";
 import InputDropdown from "modules/common/components/InputDropdown";
-
+import DynamicListInput from "modules/common/components/DynamicListInput";
+import AddIcon from "assets/svg/add_outlined.svg"
 export default class UpdatePlaceDrawer extends Component {
     constructor(props){
         super(props)
 
         this.state = {
             division: {},
-            district: {}
+            district: {},
+            popularPlaces: []
         }
 
         this.handleSubmitForm = this.handleSubmitForm.bind(this)
@@ -63,6 +65,26 @@ export default class UpdatePlaceDrawer extends Component {
                             onChange={district => {
                                 console.log({district})
                                 this.setState({ district })
+                            }}
+                        />
+                        <DynamicListInput
+                            label="Popular Place"
+                            value={this.state.popularPlaces}
+                            items={[
+                                { text: "Dhaka", value: "Dhaka" },
+                                { text: "Chittagong", value: "Chittagong" },
+                                { text: "Sylhet", value: "Sylhet" },
+                                { text: "Barishal", value: "Barishal" },
+                                { text: "Jessore", value: "Jessore" },
+                            ]}
+                            placeholder={(
+                                <>
+                                    <AddIcon className="mr-2 h-4 w-4" />
+                                    Add a place
+                                </>
+                            )}
+                            onChange={popularPlaces => {
+                                this.setState({ popularPlaces })
                             }}
                         />
                     </DrawerContent>
