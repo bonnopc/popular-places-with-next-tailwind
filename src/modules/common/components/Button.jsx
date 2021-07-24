@@ -22,8 +22,8 @@ export default function Button({
     else if(variant === "light" && !disabled) classWillBe += " bg-white hover:bg-gray-50 text-blue";
 
     // size
-    if(size === "large") classWillBe += ` px-8 py-4 text-lg ${!hideXMargin ? "mx-8" : ""}`;
-    else if(size === "medium") classWillBe += ` px-4 py-2 ${!hideXMargin ? "mx-4" : ""}`;
+    if(size === "large") classWillBe += ` px-12 py-4 leading-5 text-lg ${!hideXMargin ? "mx-8" : ""}`;
+    else if(size === "medium") classWillBe += ` px-4 py-2 leading-7 ${!hideXMargin ? "mx-4" : ""}`;
     else if(size === "small") classWillBe += ` px-2 py-1 text-sm ${!hideXMargin ? "mx-2" : ""}`;
 
     if(fullWidth) classWillBe += " w-full";

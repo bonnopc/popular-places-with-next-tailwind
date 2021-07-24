@@ -7,7 +7,7 @@ export function DrawerAction({
 }){
     return (
         <section
-            className="py-4 px-8 flex justify-end sticky bottom-0 w-full border-t-2 bg-white"
+            className="py-4 px-12 flex justify-end sticky bottom-0 w-full border-t-2 bg-white"
             {...restProps}
         >
             { children }

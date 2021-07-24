@@ -45,11 +45,11 @@ export default class UpdatePlaceDrawer extends Component {
                             value={this.state.division}
                             label="Division"
                             className="mb-8"
-                            // items={[
-                            //     { text: "Dhaka", value: "Dhaka" },
-                            //     { text: "Chittagong", value: "Chittagong" },
-                            //     { text: "Sylhet", value: "Sylhet" },
-                            // ]}
+                            items={[
+                                { text: "Dhaka", value: "Dhaka" },
+                                { text: "Chittagong", value: "Chittagong" },
+                                { text: "Sylhet", value: "Sylhet" },
+                            ]}
                             onChange={division => {
                                 console.log({division})
                                 this.setState({ division })
@@ -108,6 +108,8 @@ export default class UpdatePlaceDrawer extends Component {
                         <Button
                             variant="light"
                             size="large"
+                            className="ml-0 mr-0"
+                            hideYMargin
                             onClick={this.props.onClose}
                         >
                             Cancel
@@ -115,6 +117,8 @@ export default class UpdatePlaceDrawer extends Component {
                         <Button
                             size="large"
                             type="submit"
+                            className="mr-0"
+                            hideYMargin
                             onClick={this.handleSubmitForm}
                         >
                             Submit

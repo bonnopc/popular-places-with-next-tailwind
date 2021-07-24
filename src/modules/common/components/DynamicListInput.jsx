@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import IconButton from "./IconButton"
 import { DropdownItems } from "./SearchDropdown"
 import RemoveIcon from "assets/svg/remove.svg"
+import getItemsByStringSearch from "helpers/getItemsByStringSearch"
 
 function SelectedItem({ text, value, onClickRemove, isLastItem }){
     return (
@@ -62,17 +63,21 @@ export default function DynamicListInput({
     }, [isOpenDropdown])
 
     useEffect(() => {
-        setFilteredItems(getFilteredItemsBySearchValue(items,value,searchedValue))
-    }, [items,value,searchedValue])
+        setFilteredItems(getItemsByStringSearch({
+            items: items.filter(e => !value.find(vl => vl.value === e.value)),
+            searchQuery: searchedValue,
+            keyToSearch: 'text'
+        }))
+    }, [items?.length,value?.length,searchedValue])
 
-    const getFilteredItemsBySearchValue = (itemsFromParent,selectedVal,searchVal) => {
-        return itemsFromParent.filter(e => !selectedVal.find(vl => vl.value === e.value)).filter(item => {
-            if(searchVal){
-                const re = new RegExp(searchVal, 'i');
-                return re.test(item.text);
-            } else return item;
-        })
-    }
+    // const getFilteredItemsBySearchValue = (itemsFromParent,selectedVal,searchVal) => {
+    //     return itemsFromParent.filter(e => !selectedVal.find(vl => vl.value === e.value)).filter(item => {
+    //         if(searchVal){
+    //             const re = new RegExp(searchVal, 'i');
+    //             return re.test(item.text);
+    //         } else return item;
+    //     })
+    // }
 
     const openDropdown = () => {
         setDropdownOpen(true)
